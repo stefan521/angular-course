@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { 
+  Component,
+  OnInit,
+  Input,
+  EventEmitter,
+  Output,
+  TemplateRef
+} from '@angular/core';
 import { Course } from '../model/course';
 
 @Component({
@@ -13,6 +20,9 @@ export class CourseCardComponent implements OnInit {
 
   @Input()
   cardIndex: number;
+
+  @Input()
+  noImageTpl: TemplateRef<any>;
 
   @Output('courseSelected')
   courseEmitter = new EventEmitter<Course>();

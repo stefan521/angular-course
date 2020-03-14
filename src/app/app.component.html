@@ -5,23 +5,21 @@
 
 </div>
 
-<div class="demo">
-    
-    <div>Start Date: {{ startDate | date: 'MMM/dd/yyyy'  }}</div>
+<div class="courses" *ngIf="courses[0] as course">
 
-    <div> {{ title | titlecase }}</div>
+    <ng-template #blankImage let-courseName="description">
+        <p class="warn">{{courseName}} has no image yet</p>
+        <img src="/assets/empty-image.png">
+    </ng-template>
 
-</div>
-
-
-<div class="courses">
-
-    <course-card 
-        *ngFor="let course of courses; index as i"
+    <course-card
         (courseSelected)="onCourseSelected($event)"
         [course]="course"
-        [cardIndex]="i + 1"
+        [noImageTpl]="blankImage"
     >
+
+        <course-image [src]="course.iconUrl"></course-image>
+
     </course-card>
 
 </div>
