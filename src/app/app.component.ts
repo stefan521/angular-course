@@ -1,27 +1,33 @@
-import {AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
-import {COURSES} from '../db-data';
+import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
 import {Course} from './model/course';
-import {CourseCardComponent} from './course-card/course-card.component';
-import {HighlightedDirective} from './directives/highlighted.directive';
+import {CoursesService} from './services/courses.service';
 import {Observable} from 'rxjs';
+import {AppConfig, CONFIG_TOKEN} from './config';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
 
+  courses$: Observable<Course[]>;
 
-  courses = COURSES;
-
-  constructor() {
+  constructor(
+    private coursesService: CoursesService,
+    @Inject(CONFIG_TOKEN) private config: AppConfig) {
 
   }
 
   ngOnInit() {
+    this.courses$ = this.coursesService.loadCourses();
   }
 
-
+  save(course: Course) {
+    this.coursesService.saveCourse(course).subscribe(
+      () => console.log('Course Saved!')
+    );
+  }
 
 }

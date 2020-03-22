@@ -13,9 +13,6 @@ export class HighlightedDirective {
     toggleHighlight = new EventEmitter();
 
     constructor() {
-
-        console.log('Directive created..');
-
     }
 
     @HostBinding('class.highlighted')
