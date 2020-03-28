@@ -1,8 +1,9 @@
 import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
 import {Course} from './model/course';
-import {CoursesService} from './services/courses.service';
 import {Observable} from 'rxjs';
 import {AppConfig, CONFIG_TOKEN} from './config';
+import {COURSES} from '../db-data';
+import {CoursesService} from './courses/services/courses.service';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,7 @@ import {AppConfig, CONFIG_TOKEN} from './config';
 })
 export class AppComponent implements OnInit {
 
-  courses$: Observable<Course[]>;
+  courses = COURSES;
 
   constructor(
     private coursesService: CoursesService,
@@ -21,13 +22,19 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.courses$ = this.coursesService.loadCourses();
   }
 
   save(course: Course) {
-    this.coursesService.saveCourse(course).subscribe(
-      () => console.log('Course Saved!')
-    );
   }
 
+  onEditCourse() {
+    const course = this.courses[0];
+
+    const newCourse = {
+      ...course,
+      description: 'ngOnChanges'
+    };
+
+    this.courses[0] = newCourse;
+  }
 }
